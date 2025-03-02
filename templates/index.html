@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Transistor BJT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .resultados {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .campo {
+            display: none;
+        }
+    </style>
+    <script>
+        function mostrarCampos() {
+            const calculo = document.getElementById("calculo").value;
+            document.querySelectorAll(".campo").forEach(campo => campo.style.display = "none");
+            if (calculo === "ib") {
+                document.getElementById("vcc").parentElement.style.display = "block";
+                document.getElementById("rb").parentElement.style.display = "block";
+            } else if (calculo === "ic") {
+                document.getElementById("vcc").parentElement.style.display = "block";
+                document.getElementById("rb").parentElement.style.display = "block";
+                document.getElementById("beta").parentElement.style.display = "block";
+            } else if (calculo === "vce") {
+                document.getElementById("vcc").parentElement.style.display = "block";
+                document.getElementById("rb").parentElement.style.display = "block";
+                document.getElementById("beta").parentElement.style.display = "block";
+                document.getElementById("rc").parentElement.style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Transistor BJT</h1>
+        <form method="POST">
+            <label for="calculo">O que deseja calcular?</label>
+            <select id="calculo" name="calculo" onchange="mostrarCampos()" required>
+                <option value="">Selecione...</option>
+                <option value="ib">Corrente da Base (I<sub>B</sub>)</option>
+                <option value="ic">Corrente do Coletor (I<sub>C</sub>)</option>
+                <option value="vce">Tensão Coletor-Emissor (V<sub>CE</sub>)</option>
+            </select>
+
+            <div class="campo">
+                <label for="vcc">Tensão de Alimentação (V<sub>CC</sub>):</label>
+                <input type="number" step="0.1" id="vcc" name="vcc">
+            </div>
+
+            <div class="campo">
+                <label for="rb">Resistor da Base (R<sub>B</sub>):</label>
+                <input type="number" step="0.1" id="rb" name="rb">
+            </div>
+
+            <div class="campo">
+                <label for="rc">Resistor do Coletor (R<sub>C</sub>):</label>
+                <input type="number" step="0.1" id="rc" name="rc">
+            </div>
+
+            <div class="campo">
+                <label for="beta">Ganho de Corrente (β):</label>
+                <input type="number" step="0.1" id="beta" name="beta">
+            </div>
+
+            <button type="submit">Calcular</button>
+        </form>
+
+        {% if resultados %}
+        <div class="resultados">
+            <h2>Resultados:</h2>
+            {% if resultados.ib %}
+            <p>Corrente da Base (I<sub>B</sub>): {{ resultados.ib|round(6) }} A</p>
+            {% endif %}
+            {% if resultados.ic %}
+            <p>Corrente do Coletor (I<sub>C</sub>): {{ resultados.ic|round(6) }} A</p>
+            {% endif %}
+            {% if resultados.vce %}
+            <p>Tensão Coletor-Emissor (V<sub>CE</sub>): {{ resultados.vce|round(6) }} V</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
